@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: session-demo
+  session:
+    # Configure Spring Session to use Redis as a datastore.
+    store-type: redis
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  # Use a random port, so that we can easily start more processes on the same host.
+  port: ${PORT:0}

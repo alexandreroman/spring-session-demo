@@ -1,0 +1,8 @@
+---
+applications:
+  - name: spring-session-demo
+    instances: 2
+    random-route: true
+    path: target/spring-session-demo.war
+    services:
+      - redis

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv=" Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Session Demo</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.0/normalize.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="container">
+    <img src="spring.png" alt="Spring Framework"/>
+    <h1>Session Demo</h1>
+    <p>This application is deployed as a WAR file using
+        <a href="https://spring.io/projects/spring-boot">Spring Boot</a>.</p>
+    <p>Session attributes are replicated across all instances using
+        <a href="https://docs.spring.io/spring-session/docs/current/reference/html5/#httpsession-redis">Spring Session
+            Redis</a>.</p>
+    <p>Session attribute value: <span class="sessionValue" th:text="${session.counter}">0</span>.</p>
+    <p>This page was served by instance <span class="instanceName" th:text="${instanceName}">instance/index</span>.</p>
+
+    <footer>
+        <p>Copyright &copy; 2019 <a href="https://pivotal.io">
+            <img align="Pivotal Software Inc." src="pivotal.png"/></a></p>
+    </footer>
+</div>
+
+<a href="https://github.com/alexandreroman/spring-session-demo"><img
+        style="position: absolute; top: 0; right: 0; border: 0;"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"
+        alt="Fork me on GitHub"></a>
+</body>
+</html>
