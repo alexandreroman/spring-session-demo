@@ -23,7 +23,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +33,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @SpringBootApplication
@@ -46,21 +46,19 @@ public class Application {
      * Extract information about current application instance.
      */
     @Bean
-    public InstanceInfo instanceName(ObjectMapper objectMapper, @Value("spring.application.name") String springAppName) throws IOException {
+    public InstanceInfo instanceName(ObjectMapper objectMapper) throws IOException {
         String instanceIndexStr = System.getenv("CF_INSTANCE_INDEX");
         if (instanceIndexStr == null) {
             instanceIndexStr = "0";
         }
         final int instanceIndex = Integer.parseInt(instanceIndexStr);
 
-        final String appName;
         final String vcapApplicationJson = System.getenv("VCAP_APPLICATION");
         if (vcapApplicationJson == null) {
-            appName = springAppName;
-        } else {
-            final VcapApplication vcapApplication = objectMapper.readValue(vcapApplicationJson, VcapApplication.class);
-            appName = vcapApplication.applicationName;
+            return new InstanceInfo(InetAddress.getLocalHost().getCanonicalHostName(), -1);
         }
+        final VcapApplication vcapApplication = objectMapper.readValue(vcapApplicationJson, VcapApplication.class);
+        final String appName = vcapApplication.applicationName;
         return new InstanceInfo(appName, instanceIndex);
     }
 
@@ -80,7 +78,7 @@ class InstanceInfo {
 
     @Override
     public String toString() {
-        return name + "/" + index;
+        return index == -1 ? name : (name + "/" + index);
     }
 }
 
